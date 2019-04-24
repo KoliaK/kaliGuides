@@ -1,0 +1,59 @@
+###Enabling Full Screen Mode (for VM only)###
+Open terminal
+
+If you don't have the Kali sources.list repositories follow This:
+    Open the browser, go to docs.kali.org
+    Search for sources.list repositories and click.
+    Copy the regular depositories source link and add to /etc/apt/sources.list
+
+    On the terminal:
+    $ cd /etc/apt
+    $ nano sources.list
+
+    Check if you don't have the link inside the file already.
+    Save and close the file.
+
+If you have the Kali sources.list repositories:
+    On the terminal:
+    $ apt install linux-headers-$(uname -r) 
+        ###IT WILL FAIL###
+    $ uname -r 
+        ###checks linux headers current version###
+        output will be something as "4.18.0-kali2-amd64"
+    $ apt install linux-headers-$-* 
+        ###will show every version available for headers###
+        will ask if you want to install all of those. CHOOSE NO!
+        Seek for the last version of linux headers, copy it.
+    $ apt install linux-image-$-[copy the last version]
+
+    $ reboot
+    
+    $ uname -r
+        ###So you can check if the newest version has been installed###
+    $ apt install linux-headers-$(uname -r)
+        ###Choose YES and wait###
+    
+Go to your VM tab menus.
+    Devices > Insert Guest Additions CD image
+    It will ask if you want to start it automatically. Choose "CANCEL" option.
+
+Terminal:
+    $ cd /media/cdrom
+    $ ls 
+    
+    Check if VboxLinuxAdditions is a .run file.
+    If not:
+        $ chmod +x VboxLinuxAdditions.run
+    
+    $ sh ./VboxLinuxAdditions.run
+
+Wait for it. VM will probably crash, but after turning it on again, it will be fullscreen.
+
+$ apt-get update 
+    ###Will update everything from repositories###
+    Choose YES (will take a while to upgrade everything)
+
+    
+     
+    
+    

